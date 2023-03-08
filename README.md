@@ -57,7 +57,7 @@ print(response)
 
 下面是具体 ChatGPT 代理的搭建方法，欢迎小伙伴们一起讨论～
 
-【点击这里](https://qm.qq.com/cgi-bin/qm/qr?k=soc5WAKNEbftNsX1uX39SYm_jHNI6Bu7&authKey=cfpBHNk+pKQ5Mi/hbqs64ivQya/BjTeSKD3PwQ4eCuG7cDiKs5SyzLVnfFP2K4Qv&noverify=0)或者搜索加入 QQ 群：752372415
+[点击这里](https://qm.qq.com/cgi-bin/qm/qr?k=soc5WAKNEbftNsX1uX39SYm_jHNI6Bu7&authKey=cfpBHNk+pKQ5Mi/hbqs64ivQya/BjTeSKD3PwQ4eCuG7cDiKs5SyzLVnfFP2K4Qv&noverify=0)或者搜索加入 QQ 群：752372415
 
 ## 代理服务器搭建方法
 ### 原理
