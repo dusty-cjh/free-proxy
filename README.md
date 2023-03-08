@@ -55,7 +55,11 @@ print(response)
   </tr>
 </table>
 
-## 搭建方法
+下面是具体 ChatGPT 代理的搭建方法，欢迎小伙伴们一起讨论～
+
+点击[这里](https://qm.qq.com/cgi-bin/qm/qr?k=soc5WAKNEbftNsX1uX39SYm_jHNI6Bu7&authKey=cfpBHNk+pKQ5Mi/hbqs64ivQya/BjTeSKD3PwQ4eCuG7cDiKs5SyzLVnfFP2K4Qv&noverify=0)或者搜索加入 QQ 群：
+
+## 代理服务器搭建方法
 ### 原理
 使用 Traefik 作为反向代理，把关于 ChatGPT 的请求转发到 openai 即可。
 ### 前期准备
