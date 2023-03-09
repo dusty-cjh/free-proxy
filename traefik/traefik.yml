@@ -1,0 +1,58 @@
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: false
+
+accessLog:
+  format: common
+  filePath: /var/log/traefik/access.log
+  bufferingSize: 100
+
+api:
+  dashboard: true
+  insecure: true
+
+entryPoints:
+  web:
+    address: :80
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+  websecure:
+    address: :443
+
+certificatesResolvers:
+  staging:
+    acme:
+      email: example@mail.com
+      storage: /ssl-certs/acme.json
+      caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
+      httpChallenge:
+        entryPoint: web
+
+  production:
+    acme:
+      email: example@mail.com
+      storage: /ssl-certs/acme.json
+      caServer: "https://acme-v02.api.letsencrypt.org/directory"
+      httpChallenge:
+        entryPoint: web
+
+providers:
+  docker:
+    exposedByDefault: false
+  file:
+    filename: /etc/traefik/config.yml
+    watch: true
+  providersThrottleDuration: 10s
+
+experimental:
+  hub: true
+
+metrics:
+  prometheus:
+    addEntryPointsLabels: true
+    addServicesLabels: true
+    entryPoint: websecure
+    addRoutersLabels: true

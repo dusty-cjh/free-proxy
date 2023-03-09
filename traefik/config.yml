@@ -1,0 +1,53 @@
+http:
+  routers:
+    chatGPT:
+      rule: "Host(`external.hdcjh.xyz`) && PathPrefix(`/62239e6c0f995ae1`)"
+      service: chatGPT
+      middlewares:
+        - chatGPT_rewrite
+        - chatGPT_ratelimit
+      tls:
+        certResolver: production
+        domains:
+          - main: "hdcjh.xyz"
+            sans:
+              - "*.hdcjh.xyz"
+    toGithub:
+      rule: "Host(`external.hdcjh.xyz`) && Path(`/`)"
+      service: github
+      middlewares:
+        - githubRedirect
+      tls:
+        certResolver: production
+        domains:
+          - main: "hdcjh.xyz"
+            sans:
+              - "*.hdcjh.xyz"
+  services:
+    chatGPT:
+      loadBalancer:
+        servers:
+          - url: https://api.openai.com
+        passHostHeader: false
+    github:
+      loadBalancer:
+        servers:
+          - url: https://github.com
+        passHostHeader: false
+  middlewares:
+    chatGPT_rewrite:
+      stripPrefix:
+        prefixes:
+          - "/62239e6c0f995ae1"
+        forceSlash: false
+    chatGPT_ratelimit:
+      rateLimit:
+        average: 1000
+        burst: 100
+        period: 1m
+    githubRedirect:
+      redirectRegex:
+        regex: "^https://external.hdcjh.xyz(.*)$"
+        replacement: https://github.com/dusty-cjh/free-proxy/blob/main/README.md
+        permanent: false
+

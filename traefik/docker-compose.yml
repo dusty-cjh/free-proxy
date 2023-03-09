@@ -1,0 +1,51 @@
+version: '3.9'
+
+services:
+  reverse-proxy:
+    image: traefik:v2.9
+    container_name: traefik
+    command:
+      - --api.insecure=true
+      - --providers.docker=true
+      - --providers.file=/etc/traefik/traefik.yml
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/log/access.log:/var/log/access.log
+      - /etc/traefik:/etc/traefik
+      - traefik-ssl-certs:/ssl-certs
+    labels:
+      # enable traefik dashboard basic-auth: https://doc.traefik.io/traefik/middlewares/http/basicauth/
+      - traefik.enable=true
+      - "traefik.http.routers.reverse-proxy.rule=Host(`external.hdcjh.xyz`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))"
+      - traefik.http.routers.reverse-proxy.entrypoints=websecure
+      - traefik.http.routers.reverse-proxy.tls=true
+      - traefik.http.routers.reverse-proxy.tls.certResolver=production
+      - traefik.http.routers.reverse-proxy.service=api@internal
+      - traefik.http.routers.reverse-proxy.middlewares=auth-rproxy,ratelimit-rproxy
+      - traefik.http.middlewares.auth-rproxy.basicauth.users=admin:$$2y$$05$$AlvlxSkrdnvillM/QL4U9OyHpcRsBCNTU0SoSceXt17cLaLzOoABm
+      - traefik.http.middlewares.ratelimit-rproxy.ratelimit.average=1000
+      - traefik.http.middlewares.ratelimit-rproxy.ratelimit.burst=60
+      - traefik.http.middlewares.ratelimit-rproxy.ratelimit.period=1m
+      - traefik.http.middlewares.togithub-rproxy.errors.status=400-499
+      - traefik.http.middlewares.togithub-rproxy.errors.service=github
+      - traefik.http.middlewares.togithub-rproxy.errors.query=/
+
+
+  whoami:
+    image: traefik/whoami
+    labels:
+      - "traefik.http.routers.whoami.rule=Host(`whoami.docker.localhost`)"
+
+networks:
+  default:
+    external:
+      name: traefik
+
+volumes:
+  traefik-ssl-certs:
+    driver: local
