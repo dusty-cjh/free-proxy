@@ -67,11 +67,22 @@ PS. 关于安全性问题
 ### 原理
 使用 Traefik 作为反向代理，把关于 ChatGPT 的请求转发到 openai 即可。
 ### 前期准备
-* 买一个国外的 VPS
+* 买一个国外的 VPS 或者**白嫖大厂的 VPS**
+  * 大厂基本每年都有打骨折的活动，下面链接里是相关的 2023 年的一些活动链接，还有一些本身就很便宜的直接去官网买就行。
+  * AWS / 
+  * [Azure](https://91ai.net/thread-1139144-1-1.html) / 
+  * [Digital Ocean](https://walixz.com/digitalocean-coupon.html) / 
+  * [甲骨文免费服务器](https://www.oracle.com/cn/cloud/free/) / 
+  * [hosteons](https://hosteons.com/)
+* 申请免费的 Redis 存储
+    * 可以直接去 [redis lab](https://app.redislabs.com/#/databases) 申请，注册就送永久 30MB 免费存储，对于小网站来说 30MB 绝对够用了。
 * 为 VPS 申请域名、证书
-* 使用 Cloudflare 托管域名
+    * 直接使用 Cloudflare 托管域名，然后在 Cloudflare 中一键申请，或者也可以去 Let's Encrypt 申请短效证书。
 * 在 VPS 上安装 docker
+    * 直接看[官网文档](https://docs.docker.com/get-docker/)
 * 使用 docker 安装 traefik
+    * 也是直接看[官方文档](https://doc.traefik.io/traefik/getting-started/quick-start/)按步骤来即可
+
 ### 配置 Traefik
 1. 创建一个配置文件 `/etc/traefik/traefik.yml`
 记得把里面的 example@mail.com 替换为自己的邮箱，该邮箱将用于 Traefik 自动去 Let's Encrypt 上申请证书。
