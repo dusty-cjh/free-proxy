@@ -2,7 +2,7 @@
 
 ## 使用方法
 ### 1. 使用 curl 访问
-把下面的命令粘贴到 cmd 即可，记得替换上自己的 API KEY
+把下面的命令粘贴到 cmd 即可，记得替换上自己的 API KEY，或者使用下文提到的免费 API KEY
 ```sh
 curl -X POST --location "https://external.hdcjh.xyz/62239e6c0f995ae1/v1/completions" \
     -H "Authorization: Bearer 这里填你的API KEY" \
