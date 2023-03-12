@@ -36,6 +36,10 @@ response = completion.choices[0]
 print(response)
 ```
 
+### 3. 免费的 API Token
+
+下面有 QQ 裙号，进群加机器人好友后，会**自动回复免费的 Token**，限流为 500 次每周。
+
 **用的舒服的话，不妨点个 star~**
 <table border="0" width="10%">
   <tr>
