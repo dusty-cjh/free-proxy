@@ -44,8 +44,8 @@ messages = [{"role": "user", "content": "老公，你说句话呀"}]
 completion = openai.ChatCompletion.create(
   model="gpt-3.5-turbo",
   messages=messages,
-  temperature=temperature,
-  max_tokens=max_tokens,
+  temperature=0.9,
+  max_tokens=1024,
   n=1,
 )
 response = completion.choices[0]
@@ -65,8 +65,8 @@ messages = [{"role": "user", "content": "老公，你说句话呀"}]
 completion = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo",
                 messages=messages,
-                temperature=temperature,
-                max_tokens=max_tokens,
+                temperature=0.9,
+                max_tokens=1024,
                 n=1,
             )
 response = completion.choices[0]
