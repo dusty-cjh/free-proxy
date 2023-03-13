@@ -2,7 +2,19 @@
 
 ## 使用方法
 ### 1. 使用 curl 访问
-把下面的命令粘贴到 cmd 即可，记得替换上自己的 API KEY，或者使用下文提到的免费 API KEY
+#### 1.1 使用代理节点的 Token 进行访问（代理Token在下面有申请方法）
+注意⚠️：该 API 仅用于测试，有限流。
+```sh
+curl -X POST --location "https://external.hdcjh.xyz/gateway/transmit-openai/v1/chat/completions" \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer 806601c981dec75e3e69b9984cb155b9" \
+    -d "{
+          \"model\": \"gpt-3.5-turbo\",
+          \"messages\": [{\"role\": \"user\", \"content\": \"Hello!\"}]
+        }"
+```
+
+#### 1.2 使用 OpenAI 的 API KEY 进行访问
 ```sh
 curl -X POST --location "https://external.hdcjh.xyz/62239e6c0f995ae1/v1/completions" \
     -H "Authorization: Bearer 这里填你的API KEY" \
@@ -16,6 +28,31 @@ curl -X POST --location "https://external.hdcjh.xyz/62239e6c0f995ae1/v1/completi
 ```
 
 ### 2. 使用 python openai 模块访问
+
+#### 2.1 使用代理节点的 Token 进行访问（代理Token在下面有申请方法）
+
+注意⚠️：该 API 仅用于测试，有限流。
+```py
+import openai
+
+# 这里记得修改成自己的 API KEY
+openai.api_key = '806601c981dec75e3e69b9984cb155b9'
+openai.api_base = 'https://external.hdcjh.xyz/gateway/transmit-openai/v1'
+
+# 一个调用的小例子
+messages = [{"role": "user", "content": "老公，你说句话呀"}]
+completion = openai.ChatCompletion.create(
+  model="gpt-3.5-turbo",
+  messages=messages,
+  temperature=temperature,
+  max_tokens=max_tokens,
+  n=1,
+)
+response = completion.choices[0]
+print(response)
+```
+
+#### 2.2 使用 OpenAI 的 API KEY 进行访问
 ```py
 import openai
 
@@ -38,7 +75,10 @@ print(response)
 
 ### 3. 免费的 API Token
 
-下面有 QQ 裙号，进群加机器人好友后，会**自动回复免费的 Token**，限流为 500 次每周。
+
+[点击这里](https://qm.qq.com/cgi-bin/qm/qr?k=soc5WAKNEbftNsX1uX39SYm_jHNI6Bu7&authKey=cfpBHNk+pKQ5Mi/hbqs64ivQya/BjTeSKD3PwQ4eCuG7cDiKs5SyzLVnfFP2K4Qv&noverify=0)或者搜索加入 QQ 群：752372415
+
+进群加机器人好友后，会**自动回复免费的代理 Token**，限流为 500 次每周且 100 次每天。
 
 **用的舒服的话，不妨点个 star~**
 <table border="0" width="10%">
@@ -59,10 +99,7 @@ print(response)
   </tr>
 </table>
 
-
-[点击这里](https://qm.qq.com/cgi-bin/qm/qr?k=soc5WAKNEbftNsX1uX39SYm_jHNI6Bu7&authKey=cfpBHNk+pKQ5Mi/hbqs64ivQya/BjTeSKD3PwQ4eCuG7cDiKs5SyzLVnfFP2K4Qv&noverify=0)或者搜索加入 QQ 群：752372415
-
-PS. 关于安全性问题
+### 4. 关于安全
 * 本项目为纯 API 转发，并不会以任何方式保存用户的 API KEY
 * 任何代理都是有窃听用户隐私的能力的，区别只在于提供者想不想
 * 如果有担心 API KEY 泄漏的同学，可以进群找机器人直接拿免费的KEY，或者自行搭建服务器，下面是具体 ChatGPT 代理的搭建方法，欢迎小伙伴们一起讨论～
@@ -70,6 +107,17 @@ PS. 关于安全性问题
 ## 代理服务器搭建方法
 ### 原理
 使用 Traefik 作为反向代理，把关于 ChatGPT 的请求转发到 openai 即可。
+
+关于代理 Token：
+* 代理 Token 就是在请求 OpenAI 的时候，Traefik 先检测代理 token 是否有效，如果有效则替换为 OpenAI 的 API KEY，最后再转发到 OpenAI。
+
+关于限流：
+* 第一层限流在 Traefik，直接配置插件
+* 第二层限流在代码里，使用 Redis 存储每个代理 Token 在一段时间范围内的请求次数，超过限制则返回错误。
+  * 更进一步可以考虑批量获取请求次数，例如限流为 10000/hour，那么就可以每次取 100 个请求次数，等本地的 Redis token 消耗光了以后再重新获取，以提升整体性能。缺点是可能产生限流误差，比如在这个例子中最大的误差就是 10%
+  * 更进一步也可以考虑在协程中使用信号去控制请求是否返回，主请求通路和验证同时进行，以降低延迟。缺点是可能会比较费 Token。
+
+
 ### 前期准备
 * 买一个国外的 VPS 或者**白嫖大厂的 VPS**
   * 大厂基本每年都有打骨折的活动，下面链接里是相关的 2023 年的一些活动链接，还有一些本身就很便宜的直接去官网买就行。

@@ -1,0 +1,12 @@
+displayName: checkAccessToken
+type: middleware
+#iconPath: .assets/icon.png
+
+import: github.com/dusty-cjh/checkAccessToken
+
+summary: '[ReverseProxy] Check Access Token from ChatGPT API request body.'
+
+testData:
+  Headers:
+    X-Demo: test
+    X-URL: '{{URL}}'
