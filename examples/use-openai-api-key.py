@@ -80,3 +80,6 @@ if __name__ == '__main__':
         response = conversation.get_response(prompt)
         print('\033[1;35mbot:\033[0m\n{}\n'.format(response))
     print('Bye, 感谢使用 ChatGPT！')
+    print('\033[1;35m[⭐️⭐️⭐️]star me: https://github.com/dusty-cjh/free-proxy/\033[0m\n')
+
+

@@ -1,5 +1,7 @@
 # 高速、免费的 ChatGPT 代理节点
 
+体验机器人可直接加QQ: [775762961](https://qm.qq.com/cgi-bin/qm/qr?k=q3jn9yXYFYjeSkiMrUsQMosq1QM9Ges7&noverify=0&personal_qrcode_source=4)
+
 ## 使用方法
 ### 1. 使用 curl 访问
 #### 1.1 使用代理节点的 Token 进行访问（代理Token在下面有申请方法）
