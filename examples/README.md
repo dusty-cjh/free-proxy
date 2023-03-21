@@ -5,8 +5,6 @@
 
 使用方法：
 
-直接拷贝上面链接中的文件保存到本地，然后执行：
-
 ```shell
 python3 use-free-proxy-key.py
 ```
