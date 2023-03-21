@@ -6,12 +6,9 @@
 注意⚠️：该 API 仅用于测试，有限流。
 ```sh
 curl -X POST --location "https://external.hdcjh.xyz/gateway/transmit-openai/v1/chat/completions" \
-    -H "Content-Type: application/json" \
     -H "Authorization: Bearer 806601c981dec75e3e69b9984cb155b9" \
-    -d "{
-          \"model\": \"gpt-3.5-turbo\",
-          \"messages\": [{\"role\": \"user\", \"content\": \"Hello!\"}]
-        }"
+    -H "Content-Type: application/json" \
+    -d '{"model": "gpt-3.5-turbo", "messages": [{"role": "user", "content": "Hello!"}]}'
 ```
 
 #### 1.2 使用 OpenAI 的 API KEY 进行访问
