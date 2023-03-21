@@ -46,7 +46,7 @@ completion = openai.ChatCompletion.create(
   n=1,
 )
 response = completion.choices[0]
-print(response)
+print(response['message']['content'])
 ```
 
 #### 2.2 使用 OpenAI 的 API KEY 进行访问
@@ -67,7 +67,7 @@ completion = openai.ChatCompletion.create(
                 n=1,
             )
 response = completion.choices[0]
-print(response)
+print(response['message']['content'])
 ```
 
 ### 3. 免费的 API Token
