@@ -4,6 +4,11 @@
 
 支持 OneBot 协议的机器人可以直接连接，享受所有功能：`wss://hdcjh.xyz/ws/mybot/event-handler/<your_bot_qq_number>/` 
 
+* ChatGPT 对话
+* OpenAI 绘画（对话前加`画`或者`draw`）
+* 自动广告识别 / 踢人
+* 群满自动踢潜水成员
+
 ## 使用方法
 ### 1. 使用 curl 访问
 #### 1.1 使用代理节点的 Token 进行访问（代理Token在下面有申请方法）
