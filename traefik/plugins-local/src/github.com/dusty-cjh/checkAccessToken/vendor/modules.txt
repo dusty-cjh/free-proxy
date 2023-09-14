@@ -1,0 +1,3 @@
+# github.com/traefik/plugindemo v0.2.2
+## explicit; go 1.16
+github.com/traefik/plugindemo
