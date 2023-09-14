@@ -1,3 +1,4 @@
+import json
 import sys
 import os
 import time
@@ -10,7 +11,7 @@ openai.api_base = 'https://external.hdcjh.xyz/gateway/transmit-openai/v1'
 
 
 class Conversation:
-    def __init__(self, base_prompt=None, max_tokens=128, max_conversation_length=8192, temperature=0.5):
+    def __init__(self, base_prompt=None, max_tokens=256, max_conversation_length=8192, temperature=0.5):
         base_prompt = base_prompt or open(os.path.join(os.path.dirname(__file__), 'prompt.txt'), 'r').read()
         self.messages = [
             {"role": "system", "content": base_prompt},
@@ -21,7 +22,7 @@ class Conversation:
         self.max_conversation_length = max_conversation_length
         self.last_response_cost_time = 0
 
-    def get_response(self, prompt: str, raise_exception=False):
+    def get_response(self, prompt: str, raise_exception=False, timeout=60, retry=1):
         try:
             start_time = time.time()
             self.messages.append({"role": "user", "content": prompt.strip()})
@@ -31,6 +32,7 @@ class Conversation:
                 temperature=self.temperature,
                 max_tokens=self.max_tokens,
                 n=1,
+                timeout=timeout,
             )
             response = completion.choices[0]
             assert response['finish_reason'] in ('stop', None, 'length'), \
@@ -49,10 +51,32 @@ class Conversation:
                 raise
             # print error log
             logging.getLogger('error').error('OpenAI ChatCompletion error: %s' % e)
+            if retry > 0:
+                return self.get_response(prompt, raise_exception, timeout, retry=retry - 1)
 
     def print_chat_history(self):
         for msg in self.messages:
             print('{}:\n{}\n\n'.format(msg['role'], msg['content'].strip()))
+
+    def dump_chat_history(self, serialize=False):
+        data = {
+            'messages': self.messages,
+            'conversation_length': self.conversation_length,
+            'last_response_cost_time': self.last_response_cost_time,
+            'max_tokens': self.max_tokens,
+            'temperature': self.temperature,
+            'max_conversation_length': self.max_conversation_length,
+        }
+        return data if not serialize else json.dumps(data)
+
+    def load_chat_history(self, chat_history, serialized=False):
+        data = chat_history if not serialized else json.loads(chat_history)
+        self.messages = data['messages']
+        self.conversation_length = data['conversation_length']
+        self.last_response_cost_time = data['last_response_cost_time']
+        self.max_tokens = data['max_tokens']
+        self.temperature = data['temperature']
+        self.max_conversation_length = data['max_conversation_length']
 
 
 if __name__ == '__main__':

@@ -1,49 +1,68 @@
 # 高速、免费的 ChatGPT 代理节点
 
-体验机器人可直接加QQ: [775762961](https://qm.qq.com/cgi-bin/qm/qr?k=q3jn9yXYFYjeSkiMrUsQMosq1QM9Ges7&noverify=0&personal_qrcode_source=4) 
+体验机器人可直接加QQ: [775762961](https://qm.qq.com/cgi-bin/qm/qr?k=q3jn9yXYFYjeSkiMrUsQMosq1QM9Ges7&noverify=0&personal_qrcode_source=4)
+(⚠️由于监管原因，机器人暂时不可用)
 
-支持 OneBot 协议的机器人可以直接连接，享受所有功能：`wss://hdcjh.xyz/ws/mybot/event-handler/<your_bot_qq_number>/` 
+QQ 交流群：[752372415](https://qm.qq.com/cgi-bin/qm/qr?k=soc5WAKNEbftNsX1uX39SYm_jHNI6Bu7&authKey=cfpBHNk+pKQ5Mi/hbqs64ivQya/BjTeSKD3PwQ4eCuG7cDiKs5SyzLVnfFP2K4Qv&noverify=0)。
 
-* ChatGPT 对话
-* OpenAI 绘画（对话前加`画`或者`draw`）
-* 自动广告识别 / 踢人
-* 群满自动踢潜水成员
+代理可以免费使用，目的是想在更大流量的基础上暴露出更多问题，欢迎大家提 BUG。
 
 ## 使用方法
-### 1. 使用 curl 访问
-#### 1.1 使用代理节点的 Token 进行访问（代理Token在下面有申请方法）
-注意⚠️：该 API 仅用于测试，有限流。
-```sh
-curl -X POST --location "https://external.hdcjh.xyz/gateway/transmit-openai/v1/chat/completions" \
-    -H "Authorization: Bearer 806601c981dec75e3e69b9984cb155b9" \
-    -H "Content-Type: application/json" \
-    -d '{"model": "gpt-3.5-turbo", "messages": [{"role": "user", "content": "Hello!"}]}'
-```
 
-#### 1.2 使用 OpenAI 的 API KEY 进行访问
+注意⚠️：该 API 仅用于测试，有限流。
+
+### 1. 使用 curl 访问
+
 ```sh
-curl -X POST --location "https://external.hdcjh.xyz/62239e6c0f995ae1/v1/completions" \
-    -H "Authorization: Bearer 这里填你的API KEY" \
+curl -X POST --location "https://external.hdcjh.xyz/gateway/pure/v1/chat/completions" \
+    -H "Authorization: Bearer qq-group-752372415" \
     -H "Content-Type: application/json" \
     -d "{
-          \"model\": \"text-davinci-003\",
-          \"prompt\": \"Say this is a test\",
-          \"max_tokens\": 7,
-          \"temperature\": 0
+          \"model\": \"gpt-3.5-turbo\",
+          \"messages\": [
+            {
+              \"role\": \"system\",
+              \"content\": \"You are a helpful assistant.\"
+            },
+            {
+              \"role\": \"user\",
+              \"content\": \"hi\"
+            }
+          ]
+        }"
+```
+
+流式传输：
+
+```sh
+curl -X POST --location "https://external.hdcjh.xyz/gateway/pure/v1/chat/completions" \
+    -H "Authorization: Bearer qq-group-752372415" \
+    -H "Content-Type: application/json" \
+    -d "{
+          \"model\": \"gpt-3.5-turbo\",
+          \"messages\": [
+            {
+              \"role\": \"system\",
+              \"content\": \"You are a helpful assistant.\"
+            },
+            {
+              \"role\": \"user\",
+              \"content\": \"explain me the TFCC injury and how to rehab.\"
+            }
+          ],
+          \"stream\": true
         }"
 ```
 
 ### 2. 使用 python openai 模块访问
-
-#### 2.1 使用代理节点的 Token 进行访问（代理Token在下面有申请方法）
 
 注意⚠️：该 API 仅用于测试，有限流。
 ```py
 import openai
 
 # 这里记得修改成自己的 API KEY
-openai.api_key = '806601c981dec75e3e69b9984cb155b9'
-openai.api_base = 'https://external.hdcjh.xyz/gateway/transmit-openai/v1'
+openai.api_key = 'qq-group-752372415'
+openai.api_base = 'https://external.hdcjh.xyz/gateway/pure/v1'
 
 # 一个调用的小例子
 messages = [{"role": "user", "content": "老公，你说句话呀"}]
@@ -54,27 +73,6 @@ completion = openai.ChatCompletion.create(
   max_tokens=1024,
   n=1,
 )
-response = completion.choices[0]
-print(response['message']['content'])
-```
-
-#### 2.2 使用 OpenAI 的 API KEY 进行访问
-```py
-import openai
-
-# 这里记得修改成自己的 API KEY
-openai.api_key = 'sk-jiofjg89ghprhgprhhghrgshp8hg3hgrugh3g'
-openai.api_base = 'https://external.hdcjh.xyz/62239e6c0f995ae1/v1'  # md5(b'ChatGPT').digest()[:8].hex()
-
-# 一个调用的小例子
-messages = [{"role": "user", "content": "老公，你说句话呀"}]
-completion = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",
-                messages=messages,
-                temperature=0.9,
-                max_tokens=1024,
-                n=1,
-            )
 response = completion.choices[0]
 print(response['message']['content'])
 ```
@@ -105,12 +103,33 @@ print(response['message']['content'])
   </tr>
 </table>
 
-### 4. 关于安全
-* 本项目为纯 API 转发，并不会以任何方式保存用户的 API KEY
-* 任何代理都是有窃听用户隐私的能力的，区别只在于提供者想不想
-* 如果有担心 API KEY 泄漏的同学，可以进群找机器人直接拿免费的KEY，或者自行搭建服务器，下面是具体 ChatGPT 代理的搭建方法，欢迎小伙伴们一起讨论～
-
 ## 代理服务器搭建方法
+
+1. 搭建 k3s 集群
+2. 安装 cert-manager / prometheus-operator / fluentd / traefik / metrics-server 等基础组件
+3. 配置 traefik 转发规则
+4. 使用 gin 框架写 openai 的转发
+
+### Tech overview
+
+There have 3 entities involved in this procedure except gateway(traefik) and openai:
+
+* Gin-based transmitting server to provide concurrency.
+* Django-based web server to provide developer's efficiency and concurrency insensitive web pages.
+* Redis to store valid tokens and token usage per request.
+
+I only added two middleware in the transmitting procedure.
+
+1. Token Usage Accounting Middleware calculates prompt / completion token usage, and save it to redis for each request.
+2. Token Validation Middleware check whether token usage in the whitelist, the whitelist is maintained by Django.
+
+Here is some tidbits:
+
+* `COPY` req and resp body while transmitting, handle it after response.
+* For validating token, use 2-stage cache, which means check local cache first, and then query redis if not found.
+
+## 代理服务器搭建方法 (旧方法，单节点，但依然可以用)
+
 ### 原理
 使用 Traefik 作为反向代理，把关于 ChatGPT 的请求转发到 openai 即可。
 
