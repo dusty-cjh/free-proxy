@@ -1,6 +1,5 @@
 ### ChatGPT-4 中国大陆免费 / 免翻墙
 
-* 推荐使用省时科技提供的免费 [ChatGPT4 网页版](https://chatgpt.zntjxt.cn/chat.html)
 
 ### ChatGPT prompt 方法
 
