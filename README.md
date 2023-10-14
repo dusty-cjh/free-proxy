@@ -1,11 +1,10 @@
 # 高速、免费的 ChatGPT 代理节点
 
 体验机器人可直接加QQ: [775762961](https://qm.qq.com/cgi-bin/qm/qr?k=q3jn9yXYFYjeSkiMrUsQMosq1QM9Ges7&noverify=0&personal_qrcode_source=4)
-(⚠️由于监管原因，机器人暂时不可用)
 
 QQ 交流群：[752372415](https://qm.qq.com/cgi-bin/qm/qr?k=soc5WAKNEbftNsX1uX39SYm_jHNI6Bu7&authKey=cfpBHNk+pKQ5Mi/hbqs64ivQya/BjTeSKD3PwQ4eCuG7cDiKs5SyzLVnfFP2K4Qv&noverify=0)。
 
-代理可以免费使用，目的是想在更大流量的基础上暴露出更多问题，欢迎大家提 BUG。
+下面的 API 可以直接使用 ⬇️ ⬇️ ⬇️ 
 
 ## 使用方法
 
@@ -14,7 +13,7 @@ QQ 交流群：[752372415](https://qm.qq.com/cgi-bin/qm/qr?k=soc5WAKNEbftNsX1uX3
 ### 1. 使用 curl 访问
 
 ```sh
-curl -X POST --location "https://external.hdcjh.xyz/gateway/pure/v1/chat/completions" \
+curl -X POST --location "https://external.hdcjh.xyz/gateway/free-proxy/v1/chat/completions" \
     -H "Authorization: Bearer qq-group-752372415" \
     -H "Content-Type: application/json" \
     -d "{
@@ -35,7 +34,7 @@ curl -X POST --location "https://external.hdcjh.xyz/gateway/pure/v1/chat/complet
 流式传输：
 
 ```sh
-curl -X POST --location "https://external.hdcjh.xyz/gateway/pure/v1/chat/completions" \
+curl -X POST --location "https://external.hdcjh.xyz/gateway/free-proxy/v1/chat/completions" \
     -H "Authorization: Bearer qq-group-752372415" \
     -H "Content-Type: application/json" \
     -d "{
