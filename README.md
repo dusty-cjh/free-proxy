@@ -61,7 +61,7 @@ import openai
 
 # 这里记得修改成自己的 API KEY
 openai.api_key = 'qq-group-752372415'
-openai.api_base = 'https://external.hdcjh.xyz/gateway/free-proxy/v1/'
+openai.api_base = 'https://external.hdcjh.xyz/gateway/free-proxy/v1'
 
 # 一个调用的小例子
 messages = [{"role": "user", "content": "老公，你说句话呀"}]
